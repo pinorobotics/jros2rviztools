@@ -17,7 +17,9 @@
  */
 package pinorobotics.jros2rviztools.tests.integration;
 
-/** @author aeon_flux aeon_flux@eclipso.ch */
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public interface TestConstants {
 
     String CALLER_ID = "jrosclient";

@@ -36,7 +36,9 @@ import pinorobotics.jrosrviztools.entities.Point;
 import pinorobotics.jrosrviztools.entities.Pose;
 import pinorobotics.jrosrviztools.entities.Scales;
 
-/** @author aeon_flux aeon_flux@eclipso.ch */
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class JRos2RvizToolsIntegrationTests {
 
     private static final JRos2ClientFactory clientFactory = new JRos2ClientFactory();

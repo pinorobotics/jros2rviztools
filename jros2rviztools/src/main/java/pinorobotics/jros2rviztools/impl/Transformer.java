@@ -20,7 +20,9 @@ package pinorobotics.jros2rviztools.impl;
 import id.jros2messages.visualization_msgs.MarkerMessage;
 import pinorobotics.jrosrviztools.entities.MarkerType;
 
-/** @author aeon_flux aeon_flux@eclipso.ch */
+/**
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class Transformer extends pinorobotics.jrosrviztools.impl.Transformer {
 
     public MarkerMessage.Type toMarkerType(MarkerType markerType) {
