@@ -1,5 +1,9 @@
 **jros2rviztools** - Java module which allows to interact with RViz in ROS2 (Robot Operating System).
 
+# Requirements
+
+Java 17+
+
 # Download
 
 [Release versions](https://github.com/pinorobotics/jros2rviztools/releases)

@@ -37,6 +37,7 @@ module jros2rviztools {
     requires transitive jrosrviztools;
     requires jros2messages;
     requires id.xfunction;
+    requires jrosmessages;
 
     exports pinorobotics.jros2rviztools;
 }

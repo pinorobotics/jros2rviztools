@@ -53,7 +53,7 @@ public class JRos2RvizToolsIntegrationTests {
 
     @BeforeEach
     public void setup() throws MalformedURLException {
-        client = clientFactory.createJRosClient();
+        client = clientFactory.createClient();
         rvizTools = toolsFactory.createJRosRvizTools(client, "map", RVIZ_MARKER_TOPIC);
     }
 
@@ -72,6 +72,5 @@ public class JRos2RvizToolsIntegrationTests {
             rvizTools.publishMarkers(Color.RED, Scales.XLARGE, MarkerType.CUBE, new Point(1, 0, 2));
             rviz.await();
         }
-        System.out.println("sssssssss");
     }
 }

@@ -27,6 +27,7 @@ import id.jrosclient.TopicSubmissionPublisher;
 import id.jrosmessages.geometry_msgs.PoseMessage;
 import id.jrosmessages.geometry_msgs.QuaternionMessage;
 import id.jrosmessages.primitives.Duration;
+import id.jrosmessages.primitives.Time;
 import id.jrosmessages.std_msgs.StringMessage;
 import id.xfunction.lang.XThread;
 import id.xfunction.logging.XLogger;
@@ -125,7 +126,7 @@ public class JRos2RvizTools implements JRosRvizTools {
         LOGGER.entering("close");
         if (markerPublisherActive) {
             markerPublisher.close();
-            client.unpublish(markerPublisher.getTopic());
+            client.unpublish(markerPublisher);
         }
         markerPublisherActive = false;
         LOGGER.exiting("close");
@@ -141,6 +142,6 @@ public class JRos2RvizTools implements JRosRvizTools {
     }
 
     private HeaderMessage createHeader() {
-        return new HeaderMessage().withFrameId(baseFrame) /*.withStamp(Time.now())*/;
+        return new HeaderMessage().withFrameId(baseFrame).withStamp(Time.now());
     }
 }
