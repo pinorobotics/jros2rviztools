@@ -32,7 +32,6 @@ import id.jrosmessages.std_msgs.StringMessage;
 import id.xfunction.lang.XThread;
 import id.xfunction.logging.XLogger;
 import java.io.IOException;
-import pinorobotics.jros2rviztools.impl.Transformer;
 import pinorobotics.jrosrviztools.JRosRvizTools;
 import pinorobotics.jrosrviztools.entities.Color;
 import pinorobotics.jrosrviztools.entities.MarkerType;
@@ -54,7 +53,7 @@ public class JRos2RvizTools implements JRosRvizTools {
     private JRosClient client;
     private String baseFrame;
     private volatile int nsCounter;
-    private Transformer transformer = new Transformer();
+    private JRos2RvizEntitiesTransformer transformer = new JRos2RvizEntitiesTransformer();
 
     JRos2RvizTools(JRosClient client, String baseFrame, String topic) {
         this.client = client;

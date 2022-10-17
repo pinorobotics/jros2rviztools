@@ -15,15 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pinorobotics.jros2rviztools.impl;
+package pinorobotics.jros2rviztools;
 
 import id.jros2messages.visualization_msgs.MarkerMessage;
+import pinorobotics.jrosrviztools.entities.JRosRvizEntitiesTransformer;
 import pinorobotics.jrosrviztools.entities.MarkerType;
 
 /**
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public class Transformer extends pinorobotics.jrosrviztools.impl.Transformer {
+public class JRos2RvizEntitiesTransformer extends JRosRvizEntitiesTransformer {
 
     public MarkerMessage.Type toMarkerType(MarkerType markerType) {
         switch (markerType) {
