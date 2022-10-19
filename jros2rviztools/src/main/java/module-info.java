@@ -29,6 +29,8 @@
  * <p>It is based on <a href="https://github.com/lambdaprime/jros2client">jrosclient</a> module
  * which is a Java implementation of ROS2 client.
  *
+ * <p>For usage examples see <a href="http://pinoweb.freetzi.com/jrosrviztools">Documentation</a>
+ *
  * @see <a href="https://github.com/pinorobotics/jros2rviztools/releases">Download</a>
  * @see <a href="https://github.com/pinorobotics/jros2rviztools">GitHub repository</a>
  * @author aeon_flux aeon_flux@eclipso.ch

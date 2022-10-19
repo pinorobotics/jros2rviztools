@@ -40,7 +40,7 @@ import pinorobotics.jrosrviztools.entities.Pose;
 import pinorobotics.jrosrviztools.entities.Vector3;
 
 /**
- * ROS1 implementation set of methods to work with RViz
+ * ROS2 implementation of {@link JRosRvizTools} to work with RViz
  *
  * @author aeon_flux aeon_flux@eclipso.ch
  */

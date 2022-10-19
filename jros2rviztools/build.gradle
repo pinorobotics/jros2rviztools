@@ -9,7 +9,6 @@ buildscript {
 }
 
 plugins {
-    id 'java'
     id 'com.diffplug.spotless'
 }
 
@@ -23,12 +22,12 @@ eclipse.classpath.file {
 }
 
 dependencies {
-    implementation 'io.github.pinorobotics:jrosrviztools:1.0-SNAPSHOT'
-    implementation 'io.github.lambdaprime:jros2messages:1.0-SNAPSHOT'
+    implementation 'io.github.pinorobotics:jrosrviztools:1.0'
+    implementation 'io.github.lambdaprime:jros2messages:1.0'
     
     // transitively export following dependency to tests project
-    apiElements 'io.github.pinorobotics:jrosrviztools:1.0-SNAPSHOT'
-    apiElements 'io.github.lambdaprime:jros2messages:1.0-SNAPSHOT'
+    apiElements 'io.github.pinorobotics:jrosrviztools:1.0'
+    apiElements 'io.github.lambdaprime:jros2messages:1.0'
 }
 
 jar { 
@@ -38,11 +37,11 @@ jar {
 }
 
 javadoc {
-    options.noTimestamp = true;
-    options.noQualifiers = ["all"];
-    options.noTree = true;
-    options.noIndex = true;
-    options.noNavBar = true;
+    options.noTimestamp = true
+    options.noQualifiers = ["all"]
+    options.noTree = true
+    options.noIndex = true
+    options.noNavBar = true
     // ignore missing @return, @param etc
     options.addBooleanOption('Xdoclint:all,-missing', true)
 }
