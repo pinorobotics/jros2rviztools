@@ -10,7 +10,7 @@ eclipse.classpath.file {
 }
 
 dependencies {
-  testImplementation project(':${zzName}')
+  testImplementation project(":${zzName}")
   testImplementation 'io.github.lambdaprime:jros2client:6.0'
 
   def junitVersion = "5.8.1"
