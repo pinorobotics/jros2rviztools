@@ -6,7 +6,7 @@ Java 17+
 
 # Download
 
-[Release versions](https://github.com/pinorobotics/jros2rviztools/releases)
+[Release versions](jros2rviztools/release/CHANGELOG.md)
 
 Or you can add dependency to it as follows:
 
@@ -14,7 +14,7 @@ Gradle:
 
 ```
 dependencies {
-    implementation 'io.github.pinorobotics:jros2rviztools:1.0'
+  implementation 'io.github.pinorobotics:jros2rviztools:1.0'
 }
 ```
 
@@ -24,6 +24,6 @@ dependencies {
 
 [Development](DEVELOPMENT.md)
 
-# Contributors
+# Contacts
 
 aeon_flux <aeon_flux@eclipso.ch>

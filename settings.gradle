@@ -1,2 +1,2 @@
-include 'jros2rviztools'
-include 'jros2rviztools.tests'
+include "${zzName}"
+include "${zzName}.tests"

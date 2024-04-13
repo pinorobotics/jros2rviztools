@@ -28,7 +28,7 @@ public class Ros2Commands implements AutoCloseable {
     private List<XProcess> procs = new ArrayList<>();
 
     public XProcess runRviz(Path configFile) {
-        var proc = new XExec("rviz2 -d " + configFile).run();
+        var proc = new XExec("rviz2 -d " + configFile).start();
         procs.add(proc);
         return proc;
     }
