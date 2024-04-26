@@ -11,13 +11,21 @@ eclipse.classpath.file {
 
 dependencies {
   testImplementation project(":${zzName}")
-  testImplementation 'io.github.lambdaprime:jros2client:6.0'
+  zzTestDependencies.split(',').findAll{ !it.isBlank() }.each { testImplementation it }
 
   def junitVersion = "5.8.1"
   testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
   testImplementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
   testRuntimeOnly "org.junit.platform:junit-platform-commons:1.7.0"
+}
+
+sourceSets {
+  test {
+    java {
+      srcDirs += ["src/gen/java"]
+    }
+  }
 }
 
 test {
