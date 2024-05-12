@@ -125,7 +125,6 @@ public class JRos2RvizTools implements JRosRvizTools {
         LOGGER.entering("close");
         if (markerPublisherActive) {
             markerPublisher.close();
-            client.unpublish(markerPublisher);
         }
         markerPublisherActive = false;
         LOGGER.exiting("close");
