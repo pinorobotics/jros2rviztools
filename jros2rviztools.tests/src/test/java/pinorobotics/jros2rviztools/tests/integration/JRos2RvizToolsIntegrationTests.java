@@ -49,9 +49,10 @@ public class JRos2RvizToolsIntegrationTests {
                         rvizToolsFactory.createJRosRvizTools(
                                 client, "map", "/visualization_marker_array")) {
             var rviz = commands.runRviz(Paths.get("").toAbsolutePath().resolve("test.rviz"));
-            rvizTools.publishText(
+            rvizTools.publishTextAsync(
                     Color.RED, Scales.XLARGE, new Pose(new Point(0, 0, 1)), "Hello from Java");
-            rvizTools.publishMarkers(Color.RED, Scales.XLARGE, MarkerType.CUBE, new Point(1, 0, 2));
+            rvizTools.publishMarkersAsync(
+                    Color.RED, Scales.XLARGE, MarkerType.CUBE, new Point(1, 0, 2));
             System.out.println("Press Enter to stop...");
             System.in.read();
             rviz.await();

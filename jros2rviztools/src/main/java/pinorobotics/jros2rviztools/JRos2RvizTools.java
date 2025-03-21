@@ -31,25 +31,25 @@ import id.jrosmessages.primitives.Time;
 import id.jrosmessages.std_msgs.StringMessage;
 import id.xfunction.lang.XThread;
 import id.xfunction.logging.XLogger;
-import java.io.IOException;
+import id.xfunction.util.IdempotentService;
 import pinorobotics.jrosrviztools.JRosRvizTools;
 import pinorobotics.jrosrviztools.entities.Color;
 import pinorobotics.jrosrviztools.entities.MarkerType;
 import pinorobotics.jrosrviztools.entities.Point;
 import pinorobotics.jrosrviztools.entities.Pose;
 import pinorobotics.jrosrviztools.entities.Vector3;
+import pinorobotics.jrosrviztools.exceptions.JRosRvizToolsException;
 
 /**
  * ROS2 implementation of {@link JRosRvizTools} to work with RViz
  *
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public class JRos2RvizTools implements JRosRvizTools {
+public class JRos2RvizTools extends IdempotentService implements JRosRvizTools {
 
     private static final XLogger LOGGER = XLogger.getLogger(JRos2RvizTools.class);
     private static final QuaternionMessage ORIENTATION = new QuaternionMessage().withW(1.0);
     private TopicSubmissionPublisher<MarkerArrayMessage> markerPublisher;
-    private boolean markerPublisherActive;
     private JRosClient client;
     private String baseFrame;
     private volatile int nsCounter;
@@ -63,12 +63,10 @@ public class JRos2RvizTools implements JRosRvizTools {
 
     /** Send text message to RViz which will be displayed at the given position. */
     @Override
-    public void publishText(Color color, Vector3 scale, Pose pose, String text) throws Exception {
+    public void publishTextAsync(Color color, Vector3 scale, Pose pose, String text)
+            throws JRosRvizToolsException {
         LOGGER.entering("publishText");
-        if (!markerPublisherActive) {
-            client.publish(markerPublisher);
-            markerPublisherActive = true;
-        }
+        start();
         publish(
                 new MarkerMessage()
                         .withHeader(createHeader())
@@ -89,13 +87,11 @@ public class JRos2RvizTools implements JRosRvizTools {
      * @param points Points with coordinates which describe marker position in space
      */
     @Override
-    public void publishMarkers(Color color, Vector3 scale, MarkerType markerType, Point... points)
-            throws Exception {
+    public void publishMarkersAsync(
+            Color color, Vector3 scale, MarkerType markerType, Point... points)
+            throws JRosRvizToolsException {
         LOGGER.entering("publishMarker");
-        if (!markerPublisherActive) {
-            client.publish(markerPublisher);
-            markerPublisherActive = true;
-        }
+        start();
         var markers = new MarkerMessage[points.length];
         for (int i = 0; i < markers.length; i++) {
             markers[i] =
@@ -116,18 +112,20 @@ public class JRos2RvizTools implements JRosRvizTools {
         LOGGER.exiting("publishMarker");
     }
 
-    private String nextNameSpace() {
-        return "@" + hashCode() + "." + nsCounter++;
+    @Override
+    protected void onClose() {
+        LOGGER.entering("close");
+        markerPublisher.close();
+        LOGGER.exiting("close");
     }
 
     @Override
-    public void close() throws IOException {
-        LOGGER.entering("close");
-        if (markerPublisherActive) {
-            markerPublisher.close();
-        }
-        markerPublisherActive = false;
-        LOGGER.exiting("close");
+    protected void onStart() {
+        client.publish(markerPublisher);
+    }
+
+    private String nextNameSpace() {
+        return "@" + hashCode() + "." + nsCounter++;
     }
 
     private void publish(MarkerMessage... markers) {
@@ -136,6 +134,7 @@ public class JRos2RvizTools implements JRosRvizTools {
             LOGGER.fine("No subscribers");
             XThread.sleep(100);
         }
+        LOGGER.fine("Nuber of markers to publish: {0}", markers.length);
         markerPublisher.submit(message);
     }
 
