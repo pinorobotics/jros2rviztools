@@ -20,7 +20,6 @@ package pinorobotics.jros2rviztools;
 import id.jrosclient.JRosClient;
 import id.jrosclient.RosVersion;
 import id.xfunction.Preconditions;
-import pinorobotics.jrosrviztools.JRosRvizTools;
 
 /**
  * Factory methods for {@link JRos2RvizTools}
@@ -30,7 +29,7 @@ import pinorobotics.jrosrviztools.JRosRvizTools;
 public class JRos2RvizToolsFactory {
 
     /** Create RViz tools */
-    public JRosRvizTools createJRosRvizTools(JRosClient client, String baseFrame, String topic) {
+    public JRos2RvizTools createJRosRvizTools(JRosClient client, String baseFrame, String topic) {
         Preconditions.isTrue(
                 client.getSupportedRosVersion().contains(RosVersion.ROS2), "Requires ROS2 client");
         return new JRos2RvizTools(client, baseFrame, topic);

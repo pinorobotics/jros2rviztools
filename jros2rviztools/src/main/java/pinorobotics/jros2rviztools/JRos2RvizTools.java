@@ -24,11 +24,14 @@ import id.jros2messages.visualization_msgs.MarkerMessage.Action;
 import id.jros2messages.visualization_msgs.MarkerMessage.Type;
 import id.jrosclient.JRosClient;
 import id.jrosclient.TopicSubmissionPublisher;
+import id.jrosmessages.geometry_msgs.PointMessage;
+import id.jrosmessages.geometry_msgs.PolygonMessage;
 import id.jrosmessages.geometry_msgs.PoseMessage;
 import id.jrosmessages.geometry_msgs.QuaternionMessage;
 import id.jrosmessages.primitives.Duration;
 import id.jrosmessages.primitives.Time;
 import id.jrosmessages.std_msgs.StringMessage;
+import id.xfunction.Preconditions;
 import id.xfunction.lang.XThread;
 import id.xfunction.logging.XLogger;
 import id.xfunction.util.IdempotentService;
@@ -110,6 +113,49 @@ public class JRos2RvizTools extends IdempotentService implements JRosRvizTools {
         }
         publish(markers);
         LOGGER.exiting("publishMarker");
+    }
+
+    /**
+     * Publish multiple planes to RViz
+     *
+     * <p>To draw a plane in RViz we could use {@link PolygonMessage} but RViz plugin renders only
+     * one polygon on the scene. It means that it will not let us draw multiple planes/polygons.
+     *
+     * <p>To draw multiple planes, this method relies on the solution present in <a
+     * href="https://github.com/PickNikRobotics/rviz_visual_tools/blob/147b1cd79bd4eddddf6ae8751e71756ace2ee581/src/rviz_visual_tools.cpp#L1008">RvizVisualTools::publishXYPlane</a>:
+     * which is based on drawing plane with triangles.
+     *
+     * @param points coordinates of plane corners in space
+     */
+    public void publishPlaneAsync(Color color, Vector3 scale, Point... points)
+            throws JRosRvizToolsException {
+        LOGGER.entering("publishPlaneAsync");
+        Preconditions.isTrue(
+                points.length % 4 == 0, "Number of points should be div by 4 (4 points per plane)");
+        start();
+        var markers = new MarkerMessage[points.length / 4];
+        for (int i = 0; i < markers.length; i++) {
+            markers[i] =
+                    new MarkerMessage()
+                            .withHeader(createHeader())
+                            .withNs(new StringMessage(nextNameSpace()))
+                            .withType(MarkerMessage.Type.TRIANGLE_LIST)
+                            .withAction(Action.ADD)
+                            .withPoints(
+                                    new PointMessage[] {
+                                        transformer.toPointMessage(points[i * 4 + 0]),
+                                        transformer.toPointMessage(points[i * 4 + 1]),
+                                        transformer.toPointMessage(points[i * 4 + 2]),
+                                        transformer.toPointMessage(points[i * 4 + 2]),
+                                        transformer.toPointMessage(points[i * 4 + 3]),
+                                        transformer.toPointMessage(points[i * 4 + 0]),
+                                    })
+                            .withScale(transformer.toVector3Message(scale))
+                            .withColor(transformer.toColorRGBMessage(color))
+                            .withLifetime(Duration.UNLIMITED);
+        }
+        publish(markers);
+        LOGGER.exiting("publishPlaneAsync");
     }
 
     @Override
